@@ -62,7 +62,7 @@
                                               SELECT * FROM tbc_comments WHERE post_id = %d ORDER BY id DESC LIMIT 15
                                             ", $preference_data->pe_id);
         $page_content .= "<div class='product_list'>";
-        $page_content .= "<div class='product_name'><img src='".$base_url."book.png' alt='book' style= 'margin-bottom: -15px;' /><b>".$preference_data->book . "</b> <em>by " . $preference_data->author .", ".$preference_data->publisher."</em>
+        $page_content .= "<div class='product_name'><img src='".$base_url."book.png' alt='book' style= 'margin-bottom: -3px; height: 21px;' /><b>".$preference_data->book . "</b> <em>by " . $preference_data->author .", ".$preference_data->publisher."</em>
         <br><br> [Reason(s):- ".$preference_data->reason."]</div>";                 
         $page_content .= "<div class='product_flash' id='product_flash_".$preference_data->id.">&nbsp;</div>";
         $page_content .= "<div class='product_like'><img class= 'likebt' src='".$base_url."like.png' data-name='like', data-bid ='".$preference_data->pe_id."'> <span id='product_like_".$preference_data->pe_id."'>".$preference_data->pLike."</span></div>";
