@@ -1,0 +1,203 @@
+
+.item{
+	clear: both;
+	margin:0;
+	padding: 10px;
+	overflow: hidden;
+	border-top: 1px solid #DBDBDB;
+}
+.item:last-child{border-bottom:1px solid #DBDBDB}
+.item:hover{background: #f9f9f9}
+.post{
+	padding: 10px 0;
+	border-bottom: 1px solid #E6E6E6;
+}
+.comment-block{
+	margin: 20px 0 20px 20px;
+	width: 600px;
+    max-height: 550px;
+    height: auto;
+    overflow: auto;
+}
+.comment-item{
+	overflow: hidden;
+	width: 550px;
+	clear: both;
+	padding: 10px;
+	border: 1px solid #E6E6E6;
+	border-radius: 5px;
+	margin: 5px;
+	word-wrap: break-word;
+}
+.comment-avatar{
+	width: 60px;
+	float: left;
+}
+.comment-avatar img{
+	width: 60px;
+	height: 60px;
+	border-radius: 5px;
+}
+.comment-post{
+	width: 400px;
+	float: left;
+	padding: 0 5px 0 10px;
+	word-wrap: break-word;
+}
+#form{
+	clear: both;
+	margin: 10px;
+	width: 500px;
+}
+
+/* form styling */
+
+.form_input{
+	width:92%;
+	background: #fff;
+	border: 1px solid #ddd;
+	font-size: 13px;
+	line-height: 20px;
+	margin: 0;
+	padding: 7px 10px;
+	box-shadow: inset 0 1px 2px #eee;
+	border:1px solid #CCC;
+	margin:0 0 5px;
+	border-radius:5px;
+}
+.float_date {background-color:black; height:300px; margin:0; padding:0; color:blue;}
+.left_d {background-color:blue; position:fixed; width:400px;}
+.right_d {float:right; width:100px;}
+
+textarea {
+	height:100px;
+	max-width:100%;
+}
+.submit_form{
+	cursor:pointer;
+	width:200px;
+	border:none;
+	background:#991D57;
+	background-image:linear-gradient(bottom, #8C1C50 0%, #991D57 52%);
+	background-image:-moz-linear-gradient(bottom, #8C1C50 0%, #991D57 52%);
+	background-image:-webkit-linear-gradient(bottom, #8C1C50 0%, #991D57 52%);
+	color:#FFF;
+	margin:27px 374px -38px;
+	padding:10px;
+	border-radius:5px;
+}
+.submit_form:hover {
+	background-image:linear-gradient(bottom, #9C215A 0%, #A82767 52%);
+	background-image:-moz-linear-gradient(bottom, #9C215A 0%, #A82767 52%);
+	background-image:-webkit-linear-gradient(bottom, #9C215A 0%, #A82767 52%);
+	-webkit-transition:background 0.3s ease-in-out;
+	-moz-transition:background 0.3s ease-in-out;
+	transition:background-color 0.3s ease-in-out;
+}
+.submit_form:active {
+	box-shadow:inset 0 1px 3px rgba(0,0,0,0.5);
+}
+input:focus,
+textarea:focus {
+	outline:0;
+	border:1px solid #999;
+}
+label{
+	display: block;
+	margin: 5px 0;
+	font-weight: 900;
+	cursor: pointer;
+}
+
+.alert{
+	display: none;
+	padding: 8px 35px 8px 14px;
+	margin: 20px 0;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	color: #468847;
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.wrap{
+	width: 600px;
+	margin: 15px auto;
+	padding: 15px 20px;
+	background: white;
+	border: 2px solid #DBDBDB;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+
+.popup_comment_box { 
+	
+	display:none; /* Hide the DIV  */
+	position:absolute; 
+	_position:absolute; /* hack for internet explorer 6 */  
+	
+	width: 720px;
+	/*background: white; */
+	
+	left: 300px;
+	top: 150px;
+	z-index:100; /* Layering ( on-top of others), if you have lots of layers: I just maximized, you can change it yourself */
+	margin-left: 15px; 
+	padding:15px;  
+	font-size:12px; 
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	overflow: hidden;  
+	
+	/* additional features, can be omitted 
+	
+	-moz-box-shadow: 0 0 5px #ff0000;
+	-webkit-box-shadow: 0 0 5px #ff0000;
+	box-shadow: 0 0 5px #ff0000; */
+		
+	
+}
+.close_box{
+float: right;
+width: 15px;
+height: 15px;
+cursor: pointer;
+/*margin-top: -321px;
+margin-right: 17px;*/
+}
+
+
+a{  
+cursor: pointer;  
+text-decoration:none;  
+} 
+
+/* This is for the positioning of the Close Link */
+#popupBoxClose {
+	font-size:20px;  
+	line-height:15px;  
+	right:5px;  
+	top:5px;  
+	position:absolute;  
+	color:#6fa5e2;  
+	font-weight:500;  	
+}
+.num_input{
+	width:300px;
+	background: #fff;
+	border: 1px solid #ddd;
+	font-size: 13px;
+	line-height: 20px;
+	margin: 0;
+	padding: 7px 10px;
+	box-shadow: inset 0 1px 2px #eee;
+
+	margin:0 0 5px;
+	border-radius:5px;
+}
+.

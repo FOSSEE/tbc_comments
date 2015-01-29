@@ -1,0 +1,354 @@
+<?php
+
+function tbc_comments_menu() {
+        $items = array();
+        $items["comments"] = array(
+            "title"  => "Non-aicte books",
+            "page callback" => "tbc_comments_all",
+            "access arguments" => array("tbc comments"),
+            "type" => MENU_NORMAL_ITEM
+        );
+        $items["comments/ajax"] = array(
+            "page callback" => "tbc_comments_ajax",
+            "access callback" => TRUE,
+            "type" => MENU_CALLBACK
+        );
+        $items["comments/books/ajax"] = array(
+            "page callback" => "tbc_comments_books_ajax",
+            "access callback" => TRUE,
+            "type" => MENU_CALLBACK
+        );
+         $items["comments/books/all/ajax"] = array(
+            "page callback" => "tbc_comments_books_all_ajax",
+            "access callback" => TRUE,
+            "type" => MENU_CALLBACK
+        );
+         return $items;
+    }
+
+    function tbc_comments_init() {
+      drupal_add_css(drupal_get_path("module", "tbc_comments") . "/css/tbc_comments_styles.css");
+        drupal_add_css(drupal_get_path("module", "tbc_comments") . "/css/tbc_comments.css");
+        drupal_add_js(drupal_get_path("module", "tbc_comments") . "/js/tbc_comment_ajax.js");
+        drupal_add_js(drupal_get_path("module", "tbc_comments") . "/js/jquery-1.4.1.min.js");
+        drupal_add_js(drupal_get_path("module", "tbc_comments") . "/js/jquery-1.2.6.min.js");
+       
+    }
+function tbc_comments_perm() {
+        return array(
+            "tbc comments",
+        );
+    }
+
+    function tbc_comments_all($type, $id, $count){
+        $page_content = "";
+        $page_content .= "test";
+
+        
+        $query= db_query("
+                        SELECT pe.book as book, pe.author as author, pe.publisher as publisher, pe.year as year, pe.id as pe_id, pe.pLike, pe.pDislike, po.approval_date as approval_date
+                        FROM {textbook_companion_preference} pe LEFT JOIN {textbook_companion_proposal} po ON pe.proposal_id = po.id
+                        WHERE po.proposal_status = 0 AND pe.approval_status = 0 AND po.proposal_type = 1  ORDER BY pe.book ASC
+
+                        ");
+
+          
+                        
+        $res=$query;
+        $countProduct=mysql_num_rows($res);
+        $page_content .= $countProduct;
+
+        $page_content .= "<div id='wrapper'>";
+        $base_url = $GLOBALS['base_url']. '/sites/all/modules/tbc_comments/image/';
+          //
+        $preference_q = db_query("
+                        SELECT pe.book as book, pe.author as author, pe.publisher as publisher, pe.year as year, pe.id as pe_id, pe.pLike, pe.pDislike, po.approval_date as approval_date
+                        FROM {textbook_companion_preference} pe LEFT JOIN {textbook_companion_proposal} po ON pe.proposal_id = po.id
+                        WHERE po.proposal_status = 0 AND pe.approval_status = 0 AND po.proposal_type = 1  ORDER BY pe.book ASC"
+                        );
+              $page_content .= "<ol>";
+              while ($preference_datas = db_fetch_object($res)) {
+
+              $page_content .=  "<li>";             
+              $page_content .=  $preference_datas->book . " by " . $preference_datas->author . ", " . $preference_datas->publisher . ", " . $preference_datas->year. $preference_datas->pLike;  
+              $page_content .=  "</li>";
+              }
+               $page_content .=  "</ol>";
+          //
+
+
+
+       $page_content .= "<div id='wrapper'>";
+       $base_url = $GLOBALS['base_url']. '/sites/all/modules/tbc_comments/image/';
+          
+          if($countProduct > 0 ){            
+
+             
+                while ($preference_data = db_fetch_object($preference_q)) {
+                  $comment_query = db_query("
+                      SELECT * FROM tbc_comments WHERE post_id = %d ORDER BY id DESC LIMIT 15
+                    ", $preference_data->pe_id);
+
+
+                 $page_content .= "<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>";
+                
+                    
+                 $page_content .= "<div class='product_list'>";
+                 $page_content .= "<div class='product_name'>".$preference_data->book.$preference_data->pe_id.$preference_data->pLike."</div>";
+                 
+                 $page_content .= "<div class='product_flash' id='product_flash_".$preference_data->id.">&nbsp;</div>";
+
+
+                 $page_content .= "<div class='product_like'><img class= 'likebt' src='".$base_url."like.png' data-name='like', data-bid ='".$preference_data->pe_id."'> <span id='product_like_".$preference_data->pe_id."'>".$preference_data->pLike."</span></div>";
+               
+                 $page_content .= "<div class='product_dislike'><img class= 'dislikebt'src='".$base_url."dislike.png' data-name='dislike', data-bid ='".$preference_data->pe_id."'> <span id='product_dislike_".$preference_data->pe_id."'>".$preference_data->pDislike."</span></div>";
+                    $page_content .= "<a id='tbc-comments_".$preference_data->pe_id."' href='#' data-bookid='".$preference_data->pe_id."' class= 'comment_click'>comments</a>";
+                    $page_content .= "<a id='testform' href='#' data-bookid='".$preference_data->pe_id."' class= 'ccomment_click'>commentss</a><div id= '#share'></div>";                        
+                   
+                    $page_content .= "<div id='popup_box_".$preference_data->pe_id."' class = 'popup_comment_box'> <div class='wrap'>";
+                    
+                    $page_content .= "<h2>Comments.....</h2>";
+                    $page_content .= "<div id='comment-block' class='comment-block'>";                    
+                   while ($comments_data = db_fetch_object($comment_query)) {
+                    $page_content .= "<div class='comment-item' id = 'comment-item_".$comments_data->id."'>";
+                    $page_content .= "<div class='comment-avatar'>";  
+                    $page_content .= "<img src='".$base_url."default_avatar.gif' alt='avatar'>";                    
+                    $page_content .= "</div>";
+                    $page_content .= "<div class='comment-post'>";
+                    $page_content .= "<h3>".$comments_data->name."<span>said....</span></h3>";
+                    $page_content .= "<p>".$comments_data->comment."</p>";
+                    $page_content .= "</div></div>";
+                           }
+                    $page_content .= "</div>";
+                    $page_content .= "<form id='form_".$preference_data->pe_id."' method='post' class= 'form_comments' data-fid='".$preference_data->pe_id."'>";
+                    $page_content .= "<input type='hidden' name='postid' value=".$preference_data->pe_id.">";
+                    $page_content .= "<label>";
+                    $page_content .= "<span>Name *</span>";
+                    $page_content .= "<input type='text' name='name' id='comment-name' placeholder='Your name here.... 'required>";
+                    $page_content .= "</label><label>";
+                    $page_content .= "<span>Email *</span>";
+                    $page_content .= "<input type='email' name='mail' id='comment-mail' placeholder='Your mail here....' required>";
+                    $page_content .= " </label><label>";
+                    $page_content .= "<span>Your comment *</span>";
+                    $page_content .= " <textarea name='comment' id='comment' cols='30' rows='10' placeholder='Type your comment here....' required></textarea>";
+                    $page_content .= "</label>";
+                    $page_content .= " <input type='submit' id='submit_".$preference_data->pe_id."' value='Submit Comment' class= 'submit_form' data-sid = '".$preference_data->pe_id."'>";
+                    $page_content .= "</form>";
+                    $page_content .= "<div id ='close_button_".$preference_data->pe_id."' class = 'close_button'>&#x2716;</div>";
+                    $page_content .= "</div></div>";
+                        // $page_content .= "</div>";
+                
+
+               $page_content .= "</div>";
+
+                    }
+
+
+          }else{
+              $page_content .= "Data Not Found";
+          }
+
+        $page_content .= "</div>";        
+       // $page_content .= drupal_get_form("tbc_comments_book_form");
+
+        return $page_content;
+
+
+
+
+        
+
+              }
+
+
+  function tbc_comments_ajax($type, $id, $count) {
+      
+      $data = "";
+
+      $type=$_POST['type'];
+      $id=$_POST['id'];
+        
+      if($type=='like'){
+
+      $fieldName='pLike';
+
+    }elseif($type=='dislike'){
+
+       $fieldName='pDislike';
+
+    }else{
+       //die();
+    }
+
+    $query= "
+      update textbook_companion_preference set $fieldName=$fieldName+1 where id= %d
+      ";
+    $res= db_query($query, $id);
+
+    $query= "select $fieldName from textbook_companion_preference where id= %d";
+    $res= db_query($query, $id);
+    $result= db_fetch_array($res);
+    //result= mysql_fetch_array($res);
+    $count= $result[$fieldName];
+    $data = $count;
+    echo $data;
+    exit();
+}
+
+// function tbc_comments_book_form(){
+
+//   $form = array();
+//     $form["name"] = array(
+//         "#type" => "textfield",
+//         "#title" => "Name",
+//         "#description" => t("Please enter your name."),
+//     );
+//     $form["email"] = array(
+//         "#type" => "textfield",
+//         "#title" => "Email",
+//         "#description" => t("Please enter your valid email id."),
+//     );
+//     $form["number"] = array(
+//         "#type" => "textfield",
+//         "#title" => "Number",
+//         "#description" => t("Please enter your valid phone number."),
+//     );
+//     $form["book"] = array(
+//         "#type" => "select",
+//         "#title" => "AICTE Book",
+//         "#description" => t("Please select a book."),
+//         "#options" => $books
+//     );
+//     $form["comment"] = array(
+//         "#type" => "textarea",
+//         "#title" => "Any other comment?",
+//         "#description" => t("Please enter your query (if any)")
+//     );
+//     $form["submit"] = array(
+//         "#type" => "submit",
+//         "#value" => "Submit"
+//     );
+//     return $form;
+// }
+
+// function tbc_comments_books_form(){
+
+//   $form = array();
+//     $form["name"] = array(
+//         "#type" => "textfield",
+//         "#title" => "Your Name",
+//         "#description" => t("Please enter your name."),
+//         "#size" => '50', 
+
+//         );
+//     $form["email"] = array(
+//         "#type" => "textfield",
+//         "#title" => "Your Email",
+//         "#description" => t("Please enter your valid email id."),
+//         "#size" => '50',
+//     );
+//     $form["url"] = array(
+//        '#type' => 'hidden',
+//         "#title" => "Url",
+//         "#description" => t("Please enter your valid phone number."),
+//         '#attributes' => array('style'=>'font-weight: bold'),  
+//     );
+   
+//     $form["body"] = array(
+//         "#type" => "textarea",
+//         "#title" => "Any other comment?",
+//         "#description" => t("Please enter your query (if any)")
+//     );
+//     $form["submit"] = array(
+//         "#type" => "submit",
+//         "#value" => "Submit",        
+//     );
+//     return $form;
+//}
+
+//
+// function tbc_comments_books_form_submit(){
+  
+//    $v = $form_state["values"];
+//     $query = "
+//         INSERT INTO tbc_comments
+//         (name, email, url, body)
+//         VALUES
+//         ('%s', '%s', '%s', '%s')
+//     ";
+//     $result = db_query($query, 
+//         $v["name"], $v["email"], $v["url"], $v["body"]
+//     );
+//     drupal_set_message("Thank you for comment.", "status");
+// }
+
+
+//
+function tbc_comments_books_ajax($name,$mail,$comment,$id) {
+  $base_url = $GLOBALS['base_url']. '/sites/all/modules/tbc_comments/image/';
+
+   $data = "";
+
+  
+  
+  if (!empty($_POST['name']) AND !empty($_POST['mail']) AND !empty($_POST['comment']) AND !empty($_POST['postid'])) {
+    $name = mysql_real_escape_string($_POST['name']);
+    $mail = mysql_real_escape_string($_POST['mail']);
+    $comment = mysql_real_escape_string($_POST['comment']);
+    $postId = mysql_real_escape_string($_POST['postid']);
+    mysql_query("INSERT INTO tbc_comments (name, mail, comment, post_id) VALUES('{$name}', '{$mail}', '{$comment}', '{$postId}')");      
+  }
+  $data .= "<div class='comment-item'>";
+  $data .= "<div class='comment-avatar'>"; 
+  $data .= "<img src='".$base_url."default_avatar.gif' alt='avatar' />";                           
+  $data .= "</div>";
+  
+  $data .= "<div class='comment-post'>";
+  $data .= "<h3>". $name ." <span>said....</span></h3>";
+  $data .= "<p>". $comment."</p>";
+  $data .= "</div></div>";
+
+
+       
+        echo $data;
+        exit();
+
+
+//
+}
+function tbc_comments_books_all_ajax($id) {
+   $data = "";
+   $base_url = $GLOBALS['base_url']. '/sites/all/modules/tbc_comments/image/';
+
+              $comment_query = db_query("
+                      SELECT * FROM tbc_comments WHERE post_id = %s ORDER BY id DESC
+                    ");
+             // $comment_result = db_query($comment_query, );
+
+                    $data .= "<h2>Comments.....</h2>";
+                    $data .= "<div id='comment-block_".$id."' class='comment-block'>";
+                    while ($comments_data = db_fetch_object($comment_query,$id)) {
+                    $data .= "<div class='comment-item'>";
+                    $data .= "<div class='comment-avatar'>"; 
+                    $data .= "<img src='".$base_url."default_avatar.gif' alt='avatar'>";                           
+                    $data .= "</div>";
+                    $data .= "<div class='comment-post'>";
+                    $data .= "<h3>".$comments_data->name."<span>said....</span></h3>";
+                    $data .= "<p>".$comments_data->comment."</p>";
+                    $data .= "</div></div>";
+                           }
+                    $data .= "</div>";
+
+       
+        echo $data;
+        exit();
+
+
+//
+}
+
+
+?>
+
+
+

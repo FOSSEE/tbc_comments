@@ -1,0 +1,36 @@
+ $(document).ready(function(){
+
+    var basePath = Drupal.settings.basePath;
+    var modPath = basePath + "comments/";
+//function changeLikeDislike(type,id){
+
+$("#likebt").click(function(){
+var type = $("#likebt").attr('data-name');
+var id = $("#likebt").attr('data-bid');
+console.log("###");
+      var dataString = 'id='+ id + '&type=' + type;
+      $("#product_flash_"+id).show();
+      $("#product_flash_"+id).fadeIn(400).html('<img src="' +modpath+'image/loading.gif" />');
+      $.ajax({
+      type: "POST",
+      url: modPath + "ajax/",
+      data: dataString,
+      cache: false,
+      success: function(result){
+               if(result){
+                    var position=result.indexOf("||");
+                    var warningMessage=result.substring(0,position);
+                    if(warningMessage=='success'){
+                         var successMessage=result.substring(position+2);
+                         $("#product_flash_"+id).html('&nbsp;');
+                         $("#product_"+type+"_"+id).html(successMessage);
+                    }else{
+                         var errorMessage=result.substring(position+2);
+                         $("#product_flash_"+id).html(errorMessage);
+                    }
+              }
+      }
+      });
+});
+});
+

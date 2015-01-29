@@ -1,0 +1,44 @@
+
+
+#container{width:80%;margin: auto;}
+#top{width:100%;margin-top: 25px; height:60px; border:1px solid #BBBBBB; padding:10px;}
+
+#wrapper{width:95%;margin-top: 25px; border:1px solid #BBBBBB; padding:20px;}
+#wrapper .button{background: -moz-linear-gradient(center top , #EDEDED 5%, #DFDFDF 100%) repeat scroll 0 0 #EDEDED;
+    border: 1px solid #DCDCDC;border-radius: 6px 6px 6px 6px;box-shadow: 0 1px 0 0 #FFFFFF inset;
+    color: #777777;padding: 6px 9px; text-shadow: 1px 1px 0 #FFFFFF;margin-left: 10px;
+}
+ .product_list{border:1px solid #BBBBBB; padding:10px;margin-top:20px;height:auto;word-wrap: break-word;}
+ .product_list .product_name{color:#000; margin-top:5px;}
+ .product_list .product_flash{width:8%; float:left;margin-bottom:-5px;}
+ .product_list .product_flash img{margin-bottom:-5px;}
+ .product_list .product_like{width:11%; float:left;}
+ .product_list .product_like img{margin-bottom:-5px;}
+ .product_list .product_dislike{width:11%; float:left;}
+ .product_list .product_dislike img{margin-bottom:-5px;}
+#fotter{clear:both;text-align:right;font-size:10px;color: #222; border:1px solid #BBBBBB; padding:10px;width:100%;margin-top: 25px;}
+
+#tbc-comments-book-form {
+    display: none;
+    padding: 15px;
+    background: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}
+.comment_tab{
+	padding-top: 43px;   
+}
+.comment_click{
+
+	 padding: 2px 5px;
+    background: #9c6833;
+    color: #ffffff;
+    margin: 0 0 0 10px;
+
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+         -o-border-radius: 3px;
+            border-radius: 3px;
+}

@@ -1,0 +1,9 @@
+name = tbc comments
+description = Module to comments on book proposals
+core = 6.x
+
+
+stylesheets[all][]   = css/tbc_comments.css
+scripts[] = js/tbc_comment_ajax.js
+scripts[] = js/jquery-1.4.1.min.js
+scripts[] = js/jquery,lightbox_me.js
