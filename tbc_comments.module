@@ -61,6 +61,7 @@
                     $comment_query = db_query("
                                               SELECT * FROM tbc_comments WHERE post_id = %d ORDER BY id DESC LIMIT 15
                                             ", $preference_data->pe_id);
+                    $countComment= mysql_num_rows($comment_query); 
         $page_content .= "<div class='product_list'>";
         $page_content .= "<div class='product_name'><img src='".$base_url."book.png' alt='book' style= 'margin-bottom: -27px; margin-left: 18px;' />";
         $page_content .="<div style='margin-left: 94px;margin-top: -27px;'><b>".$preference_data->book . "</b> <br><em>by " . $preference_data->author .", ".$preference_data->publisher."</em>
@@ -69,7 +70,7 @@
         $page_content .= "<div class='product_like'><img class= 'likebt' src='".$base_url."like.png' data-name='like', data-bid ='".$preference_data->pe_id."'> <span id='product_like_".$preference_data->pe_id."'>".$preference_data->pLike."</span></div>";
         $page_content .= "<div class='product_dislike'><img class= 'dislikebt'src='".$base_url."dislike.png' data-name='dislike', data-bid ='".$preference_data->pe_id."'> <span id='product_dislike_".$preference_data->pe_id."'>".$preference_data->pDislike."</span></div>";
         $page_content .= "</ br>";
-        $page_content .= "<div class= 'comment_tab'><a id='tbc-comments_".$preference_data->pe_id."' href='#' data-bookid='".$preference_data->pe_id."' class= 'comment_click'>comments</a></div>";
+        $page_content .= "<div class= 'comment_tab'><a id='tbc-comments_".$preference_data->pe_id."' href='#' data-bookid='".$preference_data->pe_id."' class= 'comment_click'>comments (".$countComment.")</a></div>";
         $page_content .= "</ br>";
         $page_content .= "<div id='popup_box_".$preference_data->pe_id."' class = 'popup_comment_box'> <div id='wrap_box_".$preference_data->pe_id."' class = 'wrap'>";
         $page_content .= "</div>";
