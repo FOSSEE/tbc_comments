@@ -47,7 +47,7 @@
         $page_content .= "<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>";
 
           $query= db_query("
-                           SELECT pe.book as book, pe.author as author, pe.publisher as publisher, pe.year as year, pe.id as pe_id, pe.pLike, pe.pDislike, po.approval_date as approval_date, po.reason  
+                           SELECT pe.book as book, pe.author as author,  pe.publisher as publisher, pe.year as year, pe.id as pe_id, pe.pLike, pe.pDislike, po.approval_date as approval_date, po.reason, po.reference  
                            FROM {textbook_companion_preference} pe LEFT JOIN {textbook_companion_proposal} po ON pe.proposal_id = po.id 
                            WHERE po.proposal_status = 0 AND pe.approval_status = 0 AND po.proposal_type = 1  ORDER BY pe.id DESC
                            ");                        
@@ -65,7 +65,7 @@
         $page_content .= "<div class='product_list'>";
         $page_content .= "<div class='product_name'><img src='".$base_url."book.png' alt='book' style= 'margin-bottom: -27px; margin-left: 18px;' />";
         $page_content .="<div style='margin-left: 94px;margin-top: -27px;'><b>".$preference_data->book . "</b> <br><em>by " . $preference_data->author .", ".$preference_data->publisher."</em>
-        <br><br> Reason(s):- ".$preference_data->reason."</div></div>";                 
+        <br><br> Reason(s):- ".$preference_data->reason ."<br><br> Reference(s):- ".$preference_data->reference ."</div></div>";                 
         $page_content .= "<div class='product_flash' id='product_flash_".$preference_data->id.">&nbsp;</div>";
         $page_content .= "<div class='product_like'><img class= 'likebt' src='".$base_url."like.png' data-name='like', data-bid ='".$preference_data->pe_id."'> <span id='product_like_".$preference_data->pe_id."'>".$preference_data->pLike."</span></div>";
         $page_content .= "<div class='product_dislike'><img class= 'dislikebt'src='".$base_url."dislike.png' data-name='dislike', data-bid ='".$preference_data->pe_id."'> <span id='product_dislike_".$preference_data->pe_id."'>".$preference_data->pDislike."</span></div>";
